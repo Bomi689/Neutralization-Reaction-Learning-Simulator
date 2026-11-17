@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="강산-강염기 중화반응 계산 및 학습 시뮬레이터">
+  <title>Chem-Guide | 중화반응 학습 시뮬레이터</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">CHEMISTRY LEARNING LAB</div>
+    <h1>Chem-Guide</h1>
+    <p>중화반응 계산 · 시각화 · 오답 유형 진단</p>
+    <div class="scope">25℃ · 묽은 1가 강산 + 1가 강염기 가정</div>
+  </div>
+</header>
+<main>
+  <nav class="tabs" aria-label="기능 선택">
+    <button class="tab active" data-tab="sim">중화반응 계산</button>
+    <button class="tab" data-tab="learn">개념 데이터 검색</button>
+    <button class="tab" data-tab="diagnosis">오답 유형 진단</button>
+    <button class="tab" data-tab="about">데이터·계산 근거</button>
+  </nav>
+
+  <section id="sim" class="panel active">
+    <div class="section-head">
+      <div><span class="kicker">01 / SIMULATION</span><h2>산과 염기를 섞어 보세요</h2></div>
+      <p>pH와 부피를 입력하면 이온의 물질량과 최종 pH를 계산합니다.</p>
+    </div>
+    <div class="input-grid">
+      <article class="input-card acid">
+        <div class="chemical-label">ACID · 산</div><h3>강산 용액</h3>
+        <label>산 용액의 pH <input id="acidPh" type="number" min="0.5" max="6.9" step="0.1" value="2"></label>
+        <label>산 용액의 부피 (mL) <input id="acidVol" type="number" min="0.1" max="10000" step="0.1" value="50"></label>
+        <div class="hint">예: 염산(HCl), 1가 강산</div>
+      </article>
+      <article class="input-card base">
+        <div class="chemical-label">BASE · 염기</div><h3>강염기 용액</h3>
+        <label>염기 용액의 pH <input id="basePh" type="number" min="7.1" max="13.5" step="0.1" value="12"></label>
+        <label>염기 용액의 부피 (mL) <input id="baseVol" type="number" min="0.1" max="10000" step="0.1" value="50"></label>
+        <div class="hint">예: 수산화 나트륨(NaOH), 1가 강염기</div>
+      </article>
+    </div>
+    <button id="calculate" class="primary">중화반응 계산하기</button>
+    <p id="error" class="error" role="alert"></p>
+    <div id="results" class="results hidden">
+      <div class="result-top">
+        <div><span class="kicker">CALCULATION RESULT</span><h3>계산 결과</h3></div>
+        <div id="statePill" class="state-pill">중성</div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric"><span>혼합 용액의 최종 pH</span><strong id="finalPh">—</strong></div>
+        <div class="metric"><span>생성된 물의 양</span><strong id="waterMol">—</strong><small>mol</small></div>
+        <div class="metric"><span>생성된 물 분자 수</span><strong id="waterMolecules">—</strong><small>개</small></div>
+      </div>
+      <div class="steps">
+        <h4>계산 과정</h4>
+        <ol id="stepList"></ol>
+      </div>
+      <div class="bar-wrap">
+        <h4>반응 전 이온 물질량 비교</h4>
+        <div class="bar-row"><span>H⁺</span><div class="bar-track"><div id="acidBar" class="bar acid-bar"></div></div><b id="acidMol">—</b></div>
+        <div class="bar-row"><span>OH⁻</span><div class="bar-track"><div id="baseBar" class="bar base-bar"></div></div><b id="baseMol">—</b></div>
+        <p class="hint">막대 길이는 두 이온의 물질량 비율을 나타냅니다.</p>
+      </div>
+      <div id="warning" class="warning"></div>
+    </div>
+  </section>
+
+  <section id="learn" class="panel">
+    <div class="section-head"><div><span class="kicker">02 / DATA SEARCH</span><h2>중화반응 개념 찾아보기</h2></div><p>프로그램에 포함된 개념 질의응답 데이터에서 관련 설명을 검색합니다.</p></div>
+    <div class="search-row"><input id="question" type="search" placeholder="예: 물은 얼마나 생성되나요?"><button id="searchBtn" class="primary">검색</button></div>
+    <div id="qaResults" class="qa-results"><p class="hint">‘pH’, ‘물질량’, ‘남는 이온’, ‘최종 pH’ 등을 검색해 보세요.</p></div>
+    <div class="dataset-count" id="qaCount">개념 데이터 불러오는 중…</div>
+  </section>
+
+  <section id="diagnosis" class="panel">
+    <div class="section-head"><div><span class="kicker">03 / ERROR DIAGNOSIS</span><h2>어느 계산 단계가 어려웠나요?</h2></div><p>풀이 단계의 이해 여부를 선택하면 포함된 학습 데이터와 KNN 방식으로 가장 가까운 오답 유형을 찾습니다.</p></div>
+    <p class="hint">각 항목에서 ‘어려움’을 선택하세요. 실제 성적이나 개인 정보는 입력하지 않습니다.</p>
+    <div id="diagnosisForm" class="diagnosis-form"></div>
+    <button id="diagnose" class="primary">오답 유형 분석하기</button>
+    <div id="diagnosisResult" class="diagnosis-result hidden"></div>
+    <p class="tiny-note">※ 현재 학습 데이터는 작동 확인을 위한 합성 예시이며 실제 학생 응답 데이터가 아닙니다. 진단 결과는 참고용입니다.</p>
+  </section>
+
+  <section id="about" class="panel">
+    <div class="section-head"><div><span class="kicker">04 / DATA & METHOD</span><h2>데이터와 계산의 근거</h2></div><p>데이터의 출처와 프로그램의 적용 범위를 투명하게 공개합니다.</p></div>
+    <div class="info-card">
+      <h3>프로그램에 포함된 데이터</h3>
+      <ul>
+        <li><b>concept_qa_dataset.json</b> — 중화반응 개념 질의응답 12건. 공개된 고등학교 수준의 화학 개념을 바탕으로 본 프로그램용으로 정리한 참고 데이터입니다.</li>
+        <li><b>diagnosis_training_data.json</b> — 오답 유형 분류를 시연하기 위한 합성 학습 데이터 25건입니다. 실제 학생 자료가 아닙니다.</li>
+        <li><b>neutralization_test_cases.json</b> — 계산 결과 검증용 시뮬레이션 사례 8건입니다. 실험 측정값이 아닙니다.</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>AI Hub 데이터와의 관계</h3>
+      <p>AI Hub의 ‘교과 단계별 교과 데이터’는 교과 텍스트·질의응답 등을 포함하는 대규모 교육 데이터입니다. 다만 원본 다운로드 승인 및 데이터 선별이 필요하고, 중화반응 문항이 포함되어 있는지는 실제 파일 확인 전에는 단정할 수 없습니다. 따라서 이 GitHub 버전에는 AI Hub 원본 데이터가 포함되어 있다고 주장하지 않습니다.</p>
+      <p><a href="https://www.aihub.or.kr/aihubdata/data/view.do?aihubDataSe=data&currMenu=115&dataSetSn=71855&topMenu=100" target="_blank" rel="noopener">AI Hub 교과 단계별 교과 데이터 공식 페이지 열기 ↗</a></p>
+    </div>
+    <div class="info-card">
+      <h3>계산에 사용한 화학 원리</h3>
+      <p>25℃에서 K<sub>w</sub>=1.0×10⁻¹⁴, pH+pOH=14를 사용합니다. 강산의 분석 농도는 [H⁺]−[OH⁻], 강염기의 분석 농도는 [OH⁻]−[H⁺]로 계산하여 물의 자동 이온화를 고려합니다.</p>
+      <p>산·염기 물질량은 각각 n=C×V로 구하고, 반응량은 두 물질량 중 작은 값입니다. 반응 후 남은 강산 또는 강염기의 농도와 물의 자동 이온화 평형을 이용해 최종 pH를 구합니다.</p>
+      <p>물 생성량은 n(H₂O)=min(n(H⁺), n(OH⁻))이며, 분자 수는 n(H₂O)×6.02214076×10²³으로 계산합니다.</p>
+    </div>
+    <div class="info-card">
+      <h3>적용 범위 및 한계</h3>
+      <ul><li>25℃의 묽은 수용액을 가정합니다.</li><li>1가 강산과 1가 강염기만 다룹니다.</li><li>pH 입력값이 해당 강산·강염기 용액의 측정 pH라고 가정합니다.</li><li>약산·약염기, 다가산·다가염기, 완충 용액, 활동도 효과 및 부피 수축은 다루지 않습니다.</li><li>계산 결과는 이상적인 모델에 따른 이론값입니다.</li></ul>
+    </div>
+  </section>
+</main>
+<footer>CHEM-GUIDE · 학습용 시뮬레이션 · 데이터와 계산의 한계를 함께 확인하세요.</footer>
+<script src="script.js"></script>
+</body>
+</html>
