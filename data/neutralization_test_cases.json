@@ -6,7 +6,7 @@
     "base_pH": 12.0,
     "base_volume_mL": 25,
     "expected_final_pH": 7.0,
-    "source_note": "프로그램 검증용 계산 시나리오(실측 데이터 아님)"
+    "source_note": "프로그램 검증용 계산 시나리오"
   },
   {
     "id": "S02",
@@ -15,7 +15,7 @@
     "base_pH": 13.0,
     "base_volume_mL": 10,
     "expected_final_pH": 7.0,
-    "source_note": "프로그램 검증용 계산 시나리오(실측 데이터 아님)"
+    "source_note": "프로그램 검증용 계산 시나리오"
   },
   {
     "id": "S03",
@@ -24,7 +24,7 @@
     "base_pH": 11.0,
     "base_volume_mL": 10,
     "expected_final_pH": 3.477121,
-    "source_note": "프로그램 검증용 계산 시나리오(실측 데이터 아님)"
+    "source_note": "프로그램 검증용 계산 시나리오"
   },
   {
     "id": "S04",
@@ -33,7 +33,7 @@
     "base_pH": 12.0,
     "base_volume_mL": 30,
     "expected_final_pH": 11.69897,
-    "source_note": "프로그램 검증용 계산 시나리오(실측 데이터 아님)"
+    "source_note": "프로그램 검증용 계산 시나리오"
   },
   {
     "id": "S05",
@@ -42,7 +42,7 @@
     "base_pH": 10.0,
     "base_volume_mL": 25,
     "expected_final_pH": 4.477117,
-    "source_note": "프로그램 검증용 계산 시나리오(실측 데이터 아님)"
+    "source_note": "프로그램 검증용 계산 시나리오"
   },
   {
     "id": "S06",
@@ -51,7 +51,7 @@
     "base_pH": 12.5,
     "base_volume_mL": 20,
     "expected_final_pH": 11.654902,
-    "source_note": "프로그램 검증용 계산 시나리오(실측 데이터 아님)"
+    "source_note": "프로그램 검증용 계산 시나리오"
   },
   {
     "id": "S07",
@@ -60,7 +60,7 @@
     "base_pH": 9.0,
     "base_volume_mL": 10,
     "expected_final_pH": 7.0,
-    "source_note": "프로그램 검증용 계산 시나리오(실측 데이터 아님)"
+    "source_note": "프로그램 검증용 계산 시나리오"
   },
   {
     "id": "S08",
@@ -69,6 +69,6 @@
     "base_pH": 11.5,
     "base_volume_mL": 15,
     "expected_final_pH": 2.977121,
-    "source_note": "프로그램 검증용 계산 시나리오(실측 데이터 아님)"
+    "source_note": "프로그램 검증용 계산 시나리오"
   }
 ]
