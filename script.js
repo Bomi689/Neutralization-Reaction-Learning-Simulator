@@ -13,7 +13,7 @@ function calculate(){
   const nA=cA*va/1000, nB=cB*vb/1000, total=(va+vb)/1000;
   const reacted=Math.min(nA,nB), net=nA-nB;
   let ph, state, leftover, finalIon, concentration;
-  if(Math.abs(net)<=1e-14){ph=7;state="당량점 · 중성";leftover="남는 강산·강염기 없음";finalIon="";concentration=0;}
+  if(Math.abs(net)<=1e-14){ph=7;state="중화점 · 중성";leftover="남는 강산·강염기 없음";finalIon="";concentration=0;}
   else if(net>0){concentration=net/total;const h=(concentration+Math.sqrt(concentration**2+4*KW))/2;ph=-Math.log10(h);state="산성 · H⁺ 과량";leftover="남은 H⁺";finalIon="H⁺"; }
   else{concentration=(-net)/total;const oh=(concentration+Math.sqrt(concentration**2+4*KW))/2;ph=14+Math.log10(oh);state="염기성 · OH⁻ 과량";leftover="남은 OH⁻";finalIon="OH⁻";}
   const waterMolecules=reacted*AVOGADRO;
@@ -24,7 +24,7 @@ function calculate(){
   const steps=[
    `산 용액: [H⁺] = 10⁻${pa} = ${fmt(hA)} mol/L. 물의 자동 이온화를 고려한 산의 분석 농도는 [H⁺]−[OH⁻] = ${fmt(cA)} mol/L입니다.`,
    `염기 용액: [OH⁻] = 10^(${pb}−14) = ${fmt(ohB)} mol/L. 염기의 분석 농도는 [OH⁻]−[H⁺] = ${fmt(cB)} mol/L입니다.`,
-   `이온 물질량: n(H⁺) = C×V = ${fmt(nA)} mol, n(OH⁻) = C×V = ${fmt(nB)} mol입니다. 부피는 mL에서 L로 바꿨습니다.`,
+   `이온 몰: n(H⁺) = C×V = ${fmt(nA)} mol, n(OH⁻) = C×V = ${fmt(nB)} mol입니다. 부피는 mL에서 L로 바꿨습니다.`,
    `반응한 양은 작은 값인 ${fmt(reacted)} mol이므로 생성된 물도 ${fmt(reacted)} mol입니다.`,
    `${leftover}. 전체 부피 ${fixed(total,4)} L에서 물의 자동 이온화 평형을 고려한 최종 pH는 ${fixed(ph,4)}입니다.`,
    `물 분자 수 = ${fmt(reacted)} × 6.02214076×10²³ = ${fmt(waterMolecules,4)}개입니다.`
@@ -42,7 +42,7 @@ function renderQA(query){
    const terms=q.split(/\s+/).filter(Boolean);let score=terms.reduce((s,t)=>s+(hay.includes(t)?1:0),0);
    return {...d,score};
  }).filter(d=>!q||d.score>0).sort((a,b)=>b.score-a.score);
- $("qaResults").innerHTML=results.length?results.slice(0,8).map(d=>`<article class="qa-card"><span class="tag">${d.topic}</span><h3>${d.question}</h3><p>${d.answer}</p></article>`).join(""):"<p>관련 내용을 찾지 못했어요. ‘pH’, ‘물질량’, ‘당량점’처럼 핵심어로 검색해 보세요.</p>";
+ $("qaResults").innerHTML=results.length?results.slice(0,8).map(d=>`<article class="qa-card"><span class="tag">${d.topic}</span><h3>${d.question}</h3><p>${d.answer}</p></article>`).join(""):"<p>관련 내용을 찾지 못했어요. ‘pH’, ‘몰’, ‘중화점’처럼 핵심어로 검색해 보세요.</p>";
  $("qaCount").textContent=`포함된 개념 데이터 ${conceptData.length}건 · 검색 결과 ${results.length}건`;
 }
 const featureNames=["pH-농도 변환","부피 L 환산","H⁺와 OH⁻ 반응량 비교","남는 이온 판단","최종 pH 계산"];
@@ -58,8 +58,8 @@ function diagnose(){
  "pH-농도 변환 이해 부족":"pH와 수소 이온·수산화 이온 농도의 관계를 먼저 복습하세요. pH는 농도의 로그 척도입니다.",
  "부피 단위 환산 오류":"농도 단위가 mol/L이므로 부피를 mL에서 L로 바꾼 뒤 C×V를 계산하는 연습이 필요합니다.",
  "중화 원리 이해 부족":"H⁺와 OH⁻가 1:1로 반응해 물을 만든다는 순이온 반응식을 먼저 확인하세요.",
- "남는 이온 판단 오류":"두 이온의 물질량을 비교하고, 더 적은 쪽이 모두 반응한 뒤 어느 이온이 남는지 판단하세요.",
- "최종 pH 계산 오류":"남은 이온의 물질량을 혼합 후 전체 부피로 나눠 농도를 구한 뒤 pH 또는 pOH를 계산하세요."
+ "남는 이온 판단 오류":"두 이온의 몰을 비교하고, 더 적은 쪽이 모두 반응한 뒤 어느 이온이 남는지 판단하세요.",
+ "최종 pH 계산 오류":"남은 이온의 몰을 혼합 후 전체 부피로 나눠 농도를 구한 뒤 pH 또는 pOH를 계산하세요."
  };
  $("diagnosisResult").innerHTML=`<h3>가장 가까운 오답 유형: ${label}</h3><p>${explain[label]}</p><p class="tiny-note">KNN 방식 · 최근접 5개 예시의 다수결 · 거리(서로 다른 응답 항목 수): ${ranked[0].d}</p>`;
  $("diagnosisResult").classList.remove("hidden");
