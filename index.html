@@ -27,7 +27,7 @@
   <section id="sim" class="panel active">
     <div class="section-head">
       <div><span class="kicker">01 / SIMULATION</span><h2>산과 염기를 섞어 보세요</h2></div>
-      <p>pH와 부피를 입력하면 이온의 물질량과 최종 pH를 계산합니다.</p>
+      <p>pH와 부피를 입력하면 이온의 몰과 최종 pH를 계산합니다.</p>
     </div>
     <div class="input-grid">
       <article class="input-card acid">
@@ -60,10 +60,10 @@
         <ol id="stepList"></ol>
       </div>
       <div class="bar-wrap">
-        <h4>반응 전 이온 물질량 비교</h4>
+        <h4>반응 전 이온 몰 비교</h4>
         <div class="bar-row"><span>H⁺</span><div class="bar-track"><div id="acidBar" class="bar acid-bar"></div></div><b id="acidMol">—</b></div>
         <div class="bar-row"><span>OH⁻</span><div class="bar-track"><div id="baseBar" class="bar base-bar"></div></div><b id="baseMol">—</b></div>
-        <p class="hint">막대 길이는 두 이온의 물질량 비율을 나타냅니다.</p>
+        <p class="hint">막대 길이는 두 이온의 몰 비율을 나타냅니다.</p>
       </div>
       <div id="warning" class="warning"></div>
     </div>
@@ -72,7 +72,7 @@
   <section id="learn" class="panel">
     <div class="section-head"><div><span class="kicker">02 / DATA SEARCH</span><h2>중화반응 개념 찾아보기</h2></div><p>프로그램에 포함된 개념 질의응답 데이터에서 관련 설명을 검색합니다.</p></div>
     <div class="search-row"><input id="question" type="search" placeholder="예: 물은 얼마나 생성되나요?"><button id="searchBtn" class="primary">검색</button></div>
-    <div id="qaResults" class="qa-results"><p class="hint">‘pH’, ‘물질량’, ‘남는 이온’, ‘최종 pH’ 등을 검색해 보세요.</p></div>
+    <div id="qaResults" class="qa-results"><p class="hint">‘pH’, ‘몰’, ‘남는 이온’, ‘최종 pH’ 등을 검색해 보세요.</p></div>
     <div class="dataset-count" id="qaCount">개념 데이터 불러오는 중…</div>
   </section>
 
@@ -103,7 +103,7 @@
     <div class="info-card">
       <h3>계산에 사용한 화학 원리</h3>
       <p>25℃에서 K<sub>w</sub>=1.0×10⁻¹⁴, pH+pOH=14를 사용합니다. 강산의 분석 농도는 [H⁺]−[OH⁻], 강염기의 분석 농도는 [OH⁻]−[H⁺]로 계산하여 물의 자동 이온화를 고려합니다.</p>
-      <p>산·염기 물질량은 각각 n=C×V로 구하고, 반응량은 두 물질량 중 작은 값입니다. 반응 후 남은 강산 또는 강염기의 농도와 물의 자동 이온화 평형을 이용해 최종 pH를 구합니다.</p>
+      <p>산·염기 몰은 각각 n=C×V로 구하고, 반응량은 두 몰 중 작은 값입니다. 반응 후 남은 강산 또는 강염기의 농도와 물의 자동 이온화 평형을 이용해 최종 pH를 구합니다.</p>
       <p>물 생성량은 n(H₂O)=min(n(H⁺), n(OH⁻))이며, 분자 수는 n(H₂O)×6.02214076×10²³으로 계산합니다.</p>
     </div>
     <div class="info-card">
